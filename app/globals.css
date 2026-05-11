@@ -903,3 +903,125 @@ h2 {
     opacity: 1 !important;
     transform: translateY(0) !important;
 }
+
+/* ─── MOBILE RESPONSIVENESS ──────────────────────────── */
+.hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    z-index: 1001;
+}
+
+.hamburger span {
+    width: 25px;
+    height: 2px;
+    background-color: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+@media (max-width: 1024px) {
+    nav {
+        min-width: 100%;
+        padding: 20px 40px;
+    }
+    section {
+        padding: 120px 40px 60px;
+    }
+    .hero-inner {
+        padding: 120px 40px 60px;
+    }
+    .card-grid, .opinion-layout, .g-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .comparison-panels {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+    .anatomy-layout {
+        grid-template-columns: 1fr !important;
+    }
+    .timeline-content-grid {
+        grid-template-columns: 1fr;
+    }
+    .timeline-img-col {
+        height: 300px;
+        padding: 40px;
+    }
+    .timeline-text-col {
+        padding: 40px;
+    }
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .hamburger {
+        display: flex;
+    }
+    .nav-links {
+        position: fixed;
+        top: 0;
+        right: -100%;
+        width: 70%;
+        height: 100vh;
+        background-color: rgba(8, 12, 16, 0.95);
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: right 0.4s ease;
+        z-index: 1000;
+        gap: 24px;
+        border-left: 1px solid var(--card-border);
+    }
+    .nav-links.active {
+        right: 0;
+    }
+    .nav-open .hamburger span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+    .nav-open .hamburger span:nth-child(2) {
+        opacity: 0;
+    }
+    .nav-open .hamburger span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+    
+    nav {
+        padding: 20px 24px;
+    }
+    section {
+        padding: 100px 24px 40px;
+    }
+    .hero-inner {
+        padding: 100px 24px 40px;
+    }
+    h1 {
+        font-size: clamp(50px, 10vw, 80px);
+    }
+    h2 {
+        font-size: clamp(40px, 8vw, 60px);
+    }
+    .card-grid, .opinion-layout, .g-grid, .comparison-panels {
+        grid-template-columns: 1fr !important;
+    }
+    .f-row {
+        flex-wrap: wrap;
+    }
+    .timeline-progress-nav {
+        padding: 20px 24px 30px;
+        top: 60px;
+        overflow-x: auto;
+    }
+    .progress-container {
+        min-width: 600px;
+    }
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .nasib-hero-img {
+        height: 300px;
+    }
+}
