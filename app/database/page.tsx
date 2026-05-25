@@ -19,6 +19,8 @@ interface Comic {
   genre: string;
   status: string;
   fetched_at: string;
+  category?: string;
+  author?: string;
 }
 
 const ITEMS_PER_PAGE = 40;
@@ -53,6 +55,8 @@ function isBlacklisted(comic: Comic): boolean {
 type ComicCategory = 'Manga' | 'Manhwa' | 'Manhua' | 'Barat';
 
 function detectCategory(comic: Comic): ComicCategory {
+  if (comic.category) return comic.category as ComicCategory;
+  
   const titleLower = (comic.title || '').toLowerCase();
 
   // Detect Western comics
@@ -209,7 +213,7 @@ export default function DatabasePage() {
     document.title = 'Database Komik | Arc Nusantara';
   }, []);
 
-  // Fetch local data (Asia & Barat) in parallel
+  // Fetch local data (webtoon.json)
   useEffect(() => {
     const controller = new AbortController();
 
@@ -218,18 +222,12 @@ export default function DatabasePage() {
         setLoading(true);
         setError(null);
         
-        const [resAsia, resBarat] = await Promise.all([
-          fetch('/data/comics-asia.json', { signal: controller.signal }),
-          fetch('/data/comics-barat.json', { signal: controller.signal })
-        ]);
+        const res = await fetch('/webtoon.json', { signal: controller.signal });
 
-        if (!resAsia.ok) throw new Error(`HTTP ${resAsia.status} Asia`);
-        if (!resBarat.ok) throw new Error(`HTTP ${resBarat.status} Barat`);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
 
-        const dataAsia = await resAsia.json();
-        const dataBarat = await resBarat.json();
-
-        setComics([...dataAsia, ...dataBarat]);
+        const data = await res.json();
+        setComics(data);
       } catch (err: unknown) {
         if (err instanceof Error && err.name !== 'AbortError') {
           setError(err.message || 'Gagal memuat data komik.');
@@ -549,6 +547,18 @@ export default function DatabasePage() {
                       <h3 style={{ fontSize: '16px', lineHeight: '1.3', marginBottom: '6px' }}>
                         {comic.title}
                       </h3>
+                      {comic.author && (
+                        <div
+                          style={{
+                            fontFamily: 'var(--font-mono)',
+                            fontSize: '11px',
+                            color: 'var(--secondary-text)',
+                            marginTop: '4px',
+                          }}
+                        >
+                          Karya: {comic.author}
+                        </div>
+                      )}
                     </div>
                   </a>
                 </div>

@@ -8,9 +8,7 @@ from datetime import datetime
 # ─── PATHS ───
 ASIA_URL = 'https://www.sankavollerei.com/comic/unlimited'
 FALLBACK_PATH = r'C:\Users\alber\.gemini\antigravity\brain\37ce6726-0f10-423b-930d-458be6bd5e48\.system_generated\steps\316\content.md'
-DATA_DIR = 'public/data'
-ASIA_OUT = os.path.join(DATA_DIR, 'comics-asia.json')
-BARAT_OUT = os.path.join(DATA_DIR, 'comics-barat.json')
+WEBTOON_OUT = 'public/webtoon.json'
 
 # ─── RAPIDAPI DETAILS ───
 RAPIDAPI_KEY = os.environ.get('RAPIDAPI_KEY', 'ebd2ae1a23msh44badf2af741e3bp1ef563jsn55f9ae5e388e')
@@ -169,7 +167,7 @@ GENRE_MAPPING = {
 }
 
 def main():
-    os.makedirs(DATA_DIR, exist_ok=True)
+    os.makedirs(os.path.dirname(WEBTOON_OUT), exist_ok=True)
 
     # 1. Fetch & Process Asian Comics
     print('Fetching Asian comics...')
@@ -185,7 +183,6 @@ def main():
         try:
             with open(FALLBACK_PATH, 'r', encoding='utf-8') as f:
                 content = f.read()
-                # Find JSON block
                 json_start = content.find('{')
                 if json_start != -1:
                     raw_data = json.loads(content[json_start:])
@@ -196,7 +193,7 @@ def main():
             return
 
     # Process and filter Asian comics
-    processed_asia = []
+    processed_comics = []
     skipped_blacklist = 0
     skipped_lainnya = 0
     
@@ -212,7 +209,7 @@ def main():
             skipped_lainnya += 1
             continue
             
-        processed_asia.append({
+        processed_comics.append({
             'title': c.get('title'),
             'link': c.get('link'),
             'image': c.get('image'),
@@ -220,17 +217,14 @@ def main():
             'rating': c.get('rating'),
             'genre': genre_cleaned,
             'status': c.get('status', 'Ongoing'),
+            'category': cat,
             'fetched_at': c.get('fetched_at') or datetime.utcnow().isoformat() + 'Z'
         })
         
     print(f'Asian Comics Processing Summary:')
-    print(f'- Total processed & saved: {len(processed_asia)}')
+    print(f'- Total processed: {len(processed_comics)}')
     print(f'- Skipped (blacklist): {skipped_blacklist}')
     print(f'- Skipped (Lainnya): {skipped_lainnya}')
-    
-    with open(ASIA_OUT, 'w', encoding='utf-8') as f:
-        json.dump(processed_asia, f, indent=2, ensure_ascii=False)
-    print(f'Saved Asian comics to {ASIA_OUT}')
 
     # 2. Fetch & Process Western Comics (RapidAPI)
     print('\nFetching Western Marvel comics from RapidAPI...')
@@ -239,16 +233,17 @@ def main():
         'X-RapidAPI-Host': RAPIDAPI_HOST
     })
     
+    processed_barat = []
     try:
         with urllib.request.urlopen(req_barat, timeout=30) as res:
             char_data = json.loads(res.read().decode('utf-8'))
             print(f'Successfully fetched {len(char_data)} character profiles.')
             
-            processed_barat = []
             for item in char_data:
                 name = item.get('name')
                 desc = item.get('description') or ''
                 first_app = item.get('firstAppearance') or 'Marvel Comics'
+                creator = item.get('creator') or 'Stan Lee, Jack Kirby'
                 
                 cover_img = MARVEL_COVERS.get(name, 'https://x.annihil.us/u/prod/marvel/i/mg/b/40/image_not_available/clean.jpg')
                 genre = GENRE_MAPPING.get(name, 'Aksi')
@@ -266,18 +261,15 @@ def main():
                     'rating': rating,
                     'genre': genre,
                     'status': 'Completed',
+                    'category': 'Barat',
+                    'author': creator,
                     'fetched_at': datetime.utcnow().isoformat() + 'Z'
                 })
-                
-            with open(BARAT_OUT, 'w', encoding='utf-8') as f:
-                json.dump(processed_barat, f, indent=2, ensure_ascii=False)
-            print(f'Saved {len(processed_barat)} Western comics to {BARAT_OUT}')
+            print(f'Processed {len(processed_barat)} Western comics.')
             
     except Exception as e:
         print(f'Error fetching/processing Western comics: {e}')
-        # Generate placeholder Western data if API fails to prevent blocking the build
         print('Generating fallback Western comics...')
-        processed_barat = []
         for name, cover_img in MARVEL_COVERS.items():
             genre = GENRE_MAPPING.get(name, 'Aksi')
             processed_barat.append({
@@ -288,11 +280,18 @@ def main():
                 'rating': 4.8,
                 'genre': genre,
                 'status': 'Completed',
+                'category': 'Barat',
+                'author': 'Stan Lee, Jack Kirby',
                 'fetched_at': datetime.utcnow().isoformat() + 'Z'
             })
-        with open(BARAT_OUT, 'w', encoding='utf-8') as f:
-            json.dump(processed_barat, f, indent=2, ensure_ascii=False)
-        print(f'Saved {len(processed_barat)} fallback Western comics to {BARAT_OUT}')
+        print(f'Generated {len(processed_barat)} fallback Western comics.')
+
+    # 3. Merge and Save to public/webtoon.json
+    merged_data = processed_comics + processed_barat
+    with open(WEBTOON_OUT, 'w', encoding='utf-8') as f:
+        json.dump(merged_data, f, indent=2, ensure_ascii=False)
+    print(f'\nMerged total {len(merged_data)} comics successfully.')
+    print(f'Saved unified dataset to {WEBTOON_OUT}')
 
 if __name__ == '__main__':
     main()
