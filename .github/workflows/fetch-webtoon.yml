@@ -1,0 +1,33 @@
+name: Fetch Webtoon and Comics Data
+
+on:
+  schedule:
+    # Run everyday at 00:00 UTC (07:00 WIB)
+    - cron: '0 0 * * *'
+  workflow_dispatch: # Enable manual trigger in GitHub Actions UI
+
+jobs:
+  fetch-data:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run fetch script
+        env:
+          RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
+        run: |
+          python scratch/process_data.py
+
+      - name: Commit and push changes
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/data/comics-asia.json public/data/comics-barat.json
+          git diff --quiet && git diff --staged --quiet || (git commit -m "chore: auto-update comics data" && git push)
