@@ -76,7 +76,8 @@ export default function Home() {
             <div className="timeline-img-col" style={{ padding: 0 }}>
               <Carousel images={[
                 'https://anelindabooks.jejualan.com/productimages/9/2/171292/put-on-edisi-4-komik-strip-pertama-indonesia-karya-kho-wan-gie-207-zoom-3.png',
-                'https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=800'
+                '/assets/put_on_vintage.png',
+                '/assets/vintage_newspaper.png'
               ]} />
               <div className="timeline-year-large" style={{ position: 'absolute', bottom: '80px', left: '80px', zIndex: 10 }}>1931</div>
             </div>
@@ -93,9 +94,9 @@ export default function Home() {
           <div className="timeline-content-grid">
             <div className="timeline-img-col" style={{ padding: 0 }}>
               <Carousel images={[
-                'https://64.media.tumblr.com/408d34e47488c3724cbe57b68c4b1f4e/tumblr_mqhzamReXu1ry4cywo1_400.jpg',
-                '/assets/gundala.jpg',
-                '/assets/sri asih.jpg'
+                '/assets/sri_asih_cover.png',
+                '/assets/sri_asih.jpg',
+                '/assets/gundala.jpg'
               ]} />
               <div className="timeline-year-large" style={{ position: 'absolute', bottom: '80px', left: '80px', zIndex: 10 }}>1953</div>
             </div>
@@ -113,8 +114,8 @@ export default function Home() {
             <div className="timeline-img-col" style={{ padding: 0 }}>
               <Carousel images={[
                 '/assets/AmazingSpider-Man1.jpg',
-                'https://images.unsplash.com/photo-1612036782180-6f0b6ce846ce?w=800',
-                'https://images.unsplash.com/photo-1534809027769-b00d750a6bac?w=800'
+                '/assets/retro_comic_shelf.png',
+                '/assets/retro_superhero_indo.png'
               ]} />
               <div className="timeline-year-large" style={{ position: 'absolute', bottom: '80px', left: '80px', zIndex: 10 }}>1972</div>
             </div>
@@ -132,7 +133,8 @@ export default function Home() {
             <div className="timeline-img-col" style={{ padding: 0 }}>
               <Carousel images={[
                 'https://i.pinimg.com/474x/8d/a6/61/8da66191ce5474b15f7089de2c8634f0.jpg',
-                '/assets/one piece.jpg'
+                '/assets/one_piece.jpg',
+                '/assets/manga_stack_90s.png'
               ]} />
               <div className="timeline-year-large" style={{ position: 'absolute', bottom: '80px', left: '80px', zIndex: 10 }}>1990</div>
             </div>
@@ -149,8 +151,9 @@ export default function Home() {
           <div className="timeline-content-grid">
             <div className="timeline-img-col" style={{ padding: 0 }}>
               <Carousel images={[
+                '/assets/solo_leveling.jpg',
                 'https://awsimages.detik.net.id/content/2015/05/06/1059/juki_cvr2.jpg',
-                '/assets/solo leveling.jpg'
+                '/assets/webtoon_smartphone.png'
               ]} />
               <div className="timeline-year-large" style={{ position: 'absolute', bottom: '80px', left: '80px', zIndex: 10 }}>2014</div>
             </div>
@@ -225,7 +228,7 @@ export default function Home() {
         <div className="anatomy-layout" style={{gridTemplateColumns: '60% 40%', gap: '40px', alignItems: 'start'}}>
           <div className="nasib-hero-img">
             <Carousel images={[
-              'https://yudhiherwibowo.wordpress.com/wp-content/uploads/2021/01/131336523_10221745478218354_4395296038348670424_o.jpg',
+              '/assets/hybrid_comic_cover.png',
               'https://www.gramedia.com/blog/content/images/2025/07/Jagat.jpg',
               '/assets/wee1.jpg'
             ]} />
@@ -307,38 +310,6 @@ export default function Home() {
         <p style={{color: '#4a6070', fontSize: '12px', marginTop: '48px', fontFamily: 'var(--font-mono)'}}>* Data bersifat estimasi dan akan diverifikasi melalui wawancara dan riset lebih lanjut</p>
       </section>
 
-      {/* AHLI */}
-      <section id="ahli">
-        <div className="section-label">WAWANCARA</div>
-        <h2>PENDAPAT <span className="accent-text">AHLI</span></h2>
-        <div className="opinion-layout">
-          <div className="opinion-item">
-            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=75" alt="Budi Santoso" className="opinion-author-img" loading="lazy" />
-            <div className="opinion-body">
-              <span className="quote-mark">&ldquo;</span>
-              <blockquote>Pergeseran ke format digital bukan hanya soal kenyamanan, tapi bagaimana narasi visual beradaptasi dengan teknologi.</blockquote>
-              <div className="author-block"><p className="author-name">Budi Santoso</p><p className="author-role">Kurator Arsip Budaya</p></div>
-            </div>
-          </div>
-          <div className="opinion-item">
-            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=600&q=75" alt="Siti Aminah" className="opinion-author-img" loading="lazy" />
-            <div className="opinion-body">
-              <span className="quote-mark">&ldquo;</span>
-              <blockquote>Gaya visual komik Indonesia saat ini adalah perpaduan unik antara estetika Manga dan kearifan lokal yang kuat.</blockquote>
-              <div className="author-block"><p className="author-name">Siti Aminah</p><p className="author-role">Analis Visual Komunikasi</p></div>
-            </div>
-          </div>
-          <div className="opinion-item">
-            <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=75" alt="Reza Mahendra" className="opinion-author-img" loading="lazy" />
-            <div className="opinion-body">
-              <span className="quote-mark">&ldquo;</span>
-              <blockquote>Webtoon telah membuka pintu bagi kreator lokal untuk mencapai audiens global tanpa hambatan distribusi fisik.</blockquote>
-              <div className="author-block"><p className="author-name">Reza Mahendra</p><p className="author-role">Ketua Komunitas Komik</p></div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* PERBANDINGAN */}
       <section id="perbandingan">
         <div className="section-label">PERBANDINGAN</div>
@@ -364,6 +335,18 @@ export default function Home() {
             <div className="panel-img"><img src="https://image.gameapps.hk/images/202412/12/19c135bb2f743297.jpg" alt="Manhua" loading="lazy" /></div>
             <div className="panel-body"><p className="panel-text">Detail latar belakang yang sangat rumit, seringkali menggunakan elemen seni lukis tradisional Tiongkok.</p><p className="panel-chars">// Mitologi Kontemporer</p></div>
           </div>
+        </div>
+      </section>
+
+      {/* AHLI (TEASER) */}
+      <section id="ahli" style={{ minHeight: 'auto', padding: '120px 80px' }}>
+        <div className="section-label">APA KATA MEREKA</div>
+        <h2>PENDAPAT &amp; <br /><span className="accent-text">WAWANCARA MENDALAM</span></h2>
+        <p className="subtitle" style={{ marginBottom: '40px', maxWidth: '800px' }}>
+          Jelajahi pandangan kritis dan analisis mendalam dari para komikus profesional (expert), pembaca aktif, serta pelaku komunitas seni sekuensial mengenai perubahan selera visual komik di Indonesia.
+        </p>
+        <div>
+          <a href="/wawancara" className="cta-btn">BACA WAWANCARA SELENGKAPNYA →</a>
         </div>
       </section>
     </>

@@ -6,6 +6,7 @@ import { useState } from 'react';
 export default function Nav() {
   const pathname = usePathname();
   const isDatabase = pathname === '/database';
+  const isWawancara = pathname === '/wawancara';
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -22,8 +23,8 @@ export default function Nav() {
         <a href="/#linimasa" onClick={() => setIsOpen(false)}>LINIMASA</a>
         <a href="/#nasib-lokal" onClick={() => setIsOpen(false)}>NASIB LOKAL</a>
         <a href="/#statistik" onClick={() => setIsOpen(false)}>FAKTANYA</a>
-        <a href="/#ahli" onClick={() => setIsOpen(false)}>APA KATA MEREKA</a>
         <a href="/#perbandingan" onClick={() => setIsOpen(false)}>PERBANDINGAN</a>
+        <a href="/wawancara" className={isWawancara ? 'active' : ''} onClick={() => setIsOpen(false)}>APA KATA MEREKA</a>
         <a href="/database" className={isDatabase ? 'active' : ''} onClick={() => setIsOpen(false)}>DATABASE</a>
       </div>
     </nav>

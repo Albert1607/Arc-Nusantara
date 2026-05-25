@@ -1,8 +1,10 @@
 'use client';
 
 import { useEffect } from 'react';
+import { usePathname } from 'next/navigation';
 
 export default function ScriptLoader() {
+  const pathname = usePathname();
   useEffect(() => {
     // 1. Intersection Observer for Enhanced Reveals
     const observerOptions = { threshold: 0.15, rootMargin: '0px 0px -50px 0px' };
@@ -14,7 +16,7 @@ export default function ScriptLoader() {
     }, observerOptions);
 
     document.querySelectorAll(
-      '.modern-card, .timeline-event, .opinion-item, .panel, .g-entry, .anatomy-vignette, .stat-box'
+      '.modern-card, .timeline-event, .opinion-item, .panel, .anatomy-vignette, .stat-box'
     ).forEach(el => {
       const e = el as HTMLElement;
       e.style.opacity = '0';
@@ -99,7 +101,7 @@ export default function ScriptLoader() {
     return () => {
       window.removeEventListener('scroll', onScroll);
     };
-  }, []);
+  }, [pathname]);
 
   return null;
 }
