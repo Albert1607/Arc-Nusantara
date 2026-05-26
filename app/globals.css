@@ -880,7 +880,8 @@ h2 {
 
 .nasib-hero-img {
     width: 100%;
-    height: 500px;
+    height: auto;
+    min-height: 400px;
     overflow: hidden;
     position: relative;
     border: 1px solid var(--card-border);
