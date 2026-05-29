@@ -223,10 +223,10 @@ function DetailModal({ data, onClose }: { data: ModalData; onClose: () => void }
 /* ─── SURABAYA CHART COMPONENT ───────────────────────── */
 const surabayaData = [
   { label: 'Manhwa Korea', pct: 41, color: '#7EADCF' },
-  { label: 'Manga Jepang',  pct: 33, color: '#5A8EBF' },
-  { label: 'Komik Lokal',   pct: 14, color: '#3A6E9A' },
-  { label: 'Manhua China',  pct: 8,  color: '#2A5070' },
-  { label: 'Komik Barat',   pct: 4,  color: '#1A3550' },
+  { label: 'Manga Jepang', pct: 33, color: '#5A8EBF' },
+  { label: 'Komik Lokal', pct: 14, color: '#3A6E9A' },
+  { label: 'Manhua China', pct: 8, color: '#2A5070' },
+  { label: 'Komik Barat', pct: 4, color: '#1A3550' },
 ];
 
 function SurabayaChart() {
@@ -395,7 +395,7 @@ export default function Home() {
       <section id="faktor">
         <div className="section-label">MENGAPA</div>
         <h2>FAKTOR <br /><span className="accent-text">PERGESERAN</span></h2>
-        <div className="card-grid" style={{gridTemplateColumns: '1fr 1fr'}}>
+        <div className="card-grid" style={{ gridTemplateColumns: '1fr 1fr' }}>
           {/* Card 1 */}
           <div className="modern-card">
             <div className="card-img-wrap"><img src="https://images.unsplash.com/photo-1544082646-12fd181f4809?q=80&w=1740&auto=format&fit=crop" alt="Digitalisasi Internet" id="digitalisasi-internet" loading="lazy" /></div>
@@ -609,7 +609,7 @@ export default function Home() {
         <div style={{ padding: '120px 80px', background: 'rgba(8,12,16,0.5)', borderTop: '1px solid rgba(255,255,255,0.05)' }}>
           <div className="section-label">EVOLUSI FORMAT</div>
           <h2 style={{ fontSize: 'clamp(30px, 5vw, 50px)', marginBottom: '40px' }}>CARA <span className="accent-text">BACA</span> MASYARAKAT</h2>
-          <div className="comparison-panels" style={{gridTemplateColumns: 'repeat(3,1fr)'}}>
+          <div className="comparison-panels" style={{ gridTemplateColumns: 'repeat(3,1fr)' }}>
             <div className="panel">
               <h4 className="panel-title">KANAN → KIRI</h4>
               <div className="panel-img"><img src="/assets/manga-way.png" alt="Manga format" loading="lazy" /></div>
@@ -645,24 +645,24 @@ export default function Home() {
         <p style={{ fontSize: '19px', lineHeight: '1.45', color: '#c8d8e4', fontWeight: 700, marginBottom: '48px' }}>
           Masuknya manga dan manhwa tidak serta-merta mematikan komik lokal, justru memunculkan gelombang baru komikus Indonesia yang mengadopsi gaya visual Asia Timur namun tetap membawa cerita dan budaya yang berakar dari Indonesia.
         </p>
-        <div className="anatomy-layout" style={{gridTemplateColumns: '60% 40%', gap: '40px', alignItems: 'stretch'}}>
-          <div className="nasib-hero-img" style={{height: '100%', minHeight: '400px'}}>
+        <div className="anatomy-layout" style={{ gridTemplateColumns: '60% 40%', gap: '40px', alignItems: 'stretch' }}>
+          <div className="nasib-hero-img" style={{ height: '100%', minHeight: '400px' }}>
             <Carousel images={[
               '/assets/bod.png',
               'https://www.gramedia.com/blog/content/images/2025/07/Jagat.jpg',
               '/assets/wee3.png'
             ]} />
           </div>
-          <div style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
             <div className="modern-card">
-              <div className="card-img-wrap" style={{height: '160px'}}><img src="https://www.gramedia.com/blog/content/images/2025/07/Jagat.jpg" alt="Adaptasi Gaya" loading="lazy" /></div>
+              <div className="card-img-wrap" style={{ height: '160px' }}><img src="https://www.gramedia.com/blog/content/images/2025/07/Jagat.jpg" alt="Adaptasi Gaya" loading="lazy" /></div>
               <div className="card-body">
                 <h3>Adaptasi Gaya</h3>
                 <p>Komik lokal seperti Survival Borneo dan Garudayana mengadopsi gaya visual manga sambil mempertahankan konten lokal, membuktikan bahwa pengaruh ini bisa jadi kekuatan, bukan ancaman.</p>
               </div>
             </div>
             <div className="modern-card">
-              <div className="card-img-wrap" style={{height: '160px'}}><img src="/assets/wee1.jpg" alt="Kebangkitan Webtoon Lokal" loading="lazy" /></div>
+              <div className="card-img-wrap" style={{ height: '160px' }}><img src="/assets/wee1.jpg" alt="Kebangkitan Webtoon Lokal" loading="lazy" /></div>
               <div className="card-body">
                 <h3>Kebangkitan Webtoon Lokal</h3>
                 <p>Platform Webtoon memberi ruang bagi komikus Indonesia untuk berkarya dan mendapat pembaca global. Banyak kreator lokal kini aktif memproduksi konten di platform ini.</p>
@@ -692,15 +692,15 @@ export default function Home() {
 
         <div className="card-grid">
           <div className="modern-card">
-            <div className="card-img-wrap"><img style={{objectPosition: 'center 45%'}} src="https://i.pinimg.com/1200x/88/ff/8a/88ff8ae7d26d63a4868820a2e689ce0b.jpg" alt="Webtoon" loading="lazy" /></div>
+            <div className="card-img-wrap"><img style={{ objectPosition: 'center 45%' }} src="https://i.pinimg.com/1200x/88/ff/8a/88ff8ae7d26d63a4868820a2e689ce0b.jpg" alt="Webtoon" loading="lazy" /></div>
             <div className="card-body"><span className="card-num">PLATFORM, KR</span><h3>Webtoon</h3><p>Platform asal Korea yang masuk Indonesia sekitar 2014–2015. Memberi ruang bagi kreator lokal dan internasional untuk mempublikasikan karya secara gratis. Kini menjadi platform komik terbesar di Indonesia.</p></div>
           </div>
           <div className="modern-card">
-            <div className="card-img-wrap"><img style={{objectPosition: 'center 5%'}} src="https://awsimages.detik.net.id/community/media/visual/2021/09/20/aplikasi-manga-plus-terbitan-shueisha_43.webp?w=1200" alt="MangaPlus" loading="lazy" /></div>
+            <div className="card-img-wrap"><img style={{ objectPosition: 'center 5%' }} src="https://awsimages.detik.net.id/community/media/visual/2021/09/20/aplikasi-manga-plus-terbitan-shueisha_43.webp?w=1200" alt="MangaPlus" loading="lazy" /></div>
             <div className="card-body"><span className="card-num">PLATFORM, JP</span><h3>MangaPlus</h3><p>Platform resmi dari Shueisha, penerbit manga terbesar Jepang. Menyediakan akses legal dan gratis ke manga-manga populer seperti One Piece dan Jujutsu Kaisen di hari yang sama dengan terbit di Jepang.</p></div>
           </div>
           <div className="modern-card">
-            <div className="card-img-wrap"><img style={{objectPosition: 'center'}} src="/assets/ig.jpeg" alt="Media Sosial" loading="lazy" /></div>
+            <div className="card-img-wrap"><img style={{ objectPosition: 'center' }} src="/assets/ig.jpeg" alt="Media Sosial" loading="lazy" /></div>
             <div className="card-body"><span className="card-num">PLATFORM, GLOBAL</span><h3>Media Sosial</h3><p>TikTok dan Instagram menjadi mesin rekomendasi komik terbesar. Panel-panel viral, review singkat, dan fan art mendorong jutaan orang untuk mencari dan membaca judul baru.</p></div>
           </div>
         </div>
@@ -710,18 +710,18 @@ export default function Home() {
       <section id="kebangkitan">
         <div className="section-label">SEKARANG</div>
         <h2>BANGKITNYA <br /><span className="accent-text">KREATOR LOKAL</span></h2>
-        <p style={{fontSize: '19px', fontWeight: 700, lineHeight: 1.45, color: '#c8d8e4', marginBottom: '60px', maxWidth: '900px'}}>Di tengah dominasi manga dan manhwa, muncul gelombang baru komikus Indonesia yang tidak menyerah, mereka mengadopsi format dan gaya visual yang populer, namun mengisi karya mereka dengan cerita, karakter, dan budaya yang berakar dari Indonesia.</p>
+        <p style={{ fontSize: '19px', fontWeight: 700, lineHeight: 1.45, color: '#c8d8e4', marginBottom: '60px', maxWidth: '900px' }}>Di tengah dominasi manga dan manhwa, muncul gelombang baru komikus Indonesia yang tidak menyerah, mereka mengadopsi format dan gaya visual yang populer, namun mengisi karya mereka dengan cerita, karakter, dan budaya yang berakar dari Indonesia.</p>
         <div className="card-grid">
           <div className="modern-card">
-            <div className="card-img-wrap"><img style={{objectPosition: 'top'}} src="https://bukukita.com/babacms/displaybuku/96183_f.jpg" alt="Garudayana" loading="lazy" /></div>
+            <div className="card-img-wrap"><img style={{ objectPosition: 'top' }} src="https://bukukita.com/babacms/displaybuku/96183_f.jpg" alt="Garudayana" loading="lazy" /></div>
             <div className="card-body"><span className="card-num">KOMIK LOKAL</span><h3>Garudayana</h3><p>Karya Is Yuniarto, komik bergaya manga dengan cerita berbasis mitologi wayang dan Mahabharata Indonesia. Membuktikan bahwa gaya visual Jepang bisa menjadi wadah cerita lokal.</p></div>
           </div>
           <div className="modern-card">
-            <div className="card-img-wrap"><img style={{objectPosition: 'top'}} src="/assets/wee1.jpg" alt="Webtoon Lokal" loading="lazy" /></div>
+            <div className="card-img-wrap"><img style={{ objectPosition: 'top' }} src="/assets/wee1.jpg" alt="Webtoon Lokal" loading="lazy" /></div>
             <div className="card-body"><span className="card-num">PLATFORM LOKAL</span><h3>Webtoon Lokal</h3><p>Semakin banyak kreator Indonesia aktif di platform Webtoon, membangun audiens lokal maupun internasional dengan cerita original berbahasa Indonesia.</p></div>
           </div>
           <div className="modern-card">
-            <div className="card-img-wrap"><img style={{objectPosition: 'center 15%'}} src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1704035616i/204581190.jpg" alt="Survival Borneo" loading="lazy" /></div>
+            <div className="card-img-wrap"><img style={{ objectPosition: 'center 15%' }} src="https://m.media-amazon.com/images/S/compressed.photo.goodreads.com/books/1704035616i/204581190.jpg" alt="Survival Borneo" loading="lazy" /></div>
             <div className="card-body"><span className="card-num">HYBRID VISUAL</span><h3>Survival Borneo</h3><p>Komik lokal bergaya manga yang mengangkat tema petualangan di hutan Kalimantan, salah satu contoh paling awal dari hybrid antara gaya visual Asia dan konten lokal Indonesia.</p></div>
           </div>
         </div>
@@ -729,7 +729,7 @@ export default function Home() {
 
       {/* STATISTIK */}
       <section id="statistik" className="section-with-bg">
-        <div className="section-bg" style={{backgroundImage: "url('https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=1600&q=75')"}}></div>
+        <div className="section-bg" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1585776245991-cf89dd7fc73a?w=1600&q=75')" }}></div>
         <div className="section-label">DATA</div>
         <h2>DALAM <br /><span className="accent-text">ANGKA</span></h2>
         <div className="stats-grid">
@@ -738,7 +738,7 @@ export default function Home() {
           <div className="stat-box"><div className="stat-number">1931</div><div className="stat-txt">TAHUN KOMIK LOKAL PERTAMA TERBIT DI INDONESIA</div></div>
           <div className="stat-box"><div className="stat-number">90an</div><div className="stat-txt">DEKADE MANGA MULAI MENGGESER KOMIK LOKAL DARI RAK TOKO BUKU</div></div>
         </div>
-        <p style={{color: '#4a6070', fontSize: '12px', marginTop: '48px', fontFamily: 'var(--font-mono)'}}>* Data bersifat estimasi dan akan diverifikasi melalui wawancara dan riset lebih lanjut</p>
+        <p style={{ color: '#4a6070', fontSize: '12px', marginTop: '48px', fontFamily: 'var(--font-mono)' }}>* Data bersifat estimasi dan akan diverifikasi melalui wawancara dan riset lebih lanjut</p>
 
         {/* Surabaya Data Chart */}
         <SurabayaChart />
