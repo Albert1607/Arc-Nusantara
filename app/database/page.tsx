@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 import gundalaImg from '../../assets/gundala.jpg';
 import sriAsihImg from '../../assets/sri asih.jpg';
-import onePieceImg from '../../assets/one piece.jpg';
+import onePieceImg from '../../assets/op(1).jpg';
 import soloLevelingImg from '../../assets/solo leveling.jpg';
 import spiderManImg from '../../assets/AmazingSpider-Man1.jpg';
 import theKingsImg from '../../assets/the kings.jpg';
