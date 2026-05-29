@@ -587,7 +587,8 @@ export default function Home() {
             <div className="timeline-img-col" style={{ padding: 0 }}>
               <Carousel images={[
                 '/assets/NDW.jpg',
-                '/assets/wee1.jpg'
+                '/assets/wee3.png',
+                '/assets/bod.png'
               ]} />
               <div className="timeline-year-large" style={{ position: 'absolute', bottom: '80px', left: '80px', zIndex: 10 }}>2024</div>
             </div>
@@ -647,9 +648,9 @@ export default function Home() {
         <div className="anatomy-layout" style={{gridTemplateColumns: '60% 40%', gap: '40px', alignItems: 'stretch'}}>
           <div className="nasib-hero-img" style={{height: '100%', minHeight: '400px'}}>
             <Carousel images={[
-              '/assets/hybrid_comic_cover.png',
+              '/assets/bod.png',
               'https://www.gramedia.com/blog/content/images/2025/07/Jagat.jpg',
-              '/assets/wee1.jpg'
+              '/assets/wee3.png'
             ]} />
           </div>
           <div style={{display: 'flex', flexDirection: 'column', gap: '24px'}}>
