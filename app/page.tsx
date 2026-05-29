@@ -499,8 +499,8 @@ export default function Home() {
             <div className="timeline-text-col">
               <div className="timeline-entry-details">
                 <span className="t-accent">ERA PAHLAWAN LOKAL</span>
-                <h3>Fajar Heroisme: Sri Asih</h3>
-                <p>RA Kosasih memperkenalkan pahlawan super wanita pertama. Periode ini menandai kemandirian komikus lokal dalam menciptakan karakter heroik dengan sentuhan budaya wayang dan mitologi Nusantara.</p>
+                <h3>Fajar Heroisme: Pahlawan Nusantara</h3>
+                <p>Dekade 1950-an hingga 1960-an adalah masa keemasan pertama komik Indonesia. RA Kosasih melahirkan Sri Asih, pahlawan super wanita pertama di Asia, disusul Gundala Putra Petir karya Wid NS, Si Buta dari Gua Hantu oleh Ganes TH, dan Jaka Sembung oleh Djair. Semua karakter ini lahir dari rahim budaya wayang dan mitologi Nusantara, bukan adaptasi dari luar.</p>
                 <button className="timeline-more-btn" onClick={() => openModal(timelineModal.t1953)}>
                   ELABORASI LEBIH →
                 </button>
