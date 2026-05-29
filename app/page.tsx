@@ -231,68 +231,468 @@ const surabayaData = [
 
 function SurabayaChart() {
   const [animated, setAnimated] = useState(false);
+  const [hoveredBar, setHoveredBar] = useState<number | null>(null);
+  const [hoveredLinePoint, setHoveredLinePoint] = useState<number | null>(null);
 
   useEffect(() => {
     const timer = setTimeout(() => setAnimated(true), 300);
     return () => clearTimeout(timer);
   }, []);
 
+  // Dimensions for SVG Line Graph
+  const svgWidth = 600;
+  const svgHeight = 320;
+  const paddingX = 64;
+  const paddingY = 48;
+  const graphWidth = svgWidth - paddingX * 2;
+  const graphHeight = svgHeight - paddingY * 2;
+  const maxPct = 50; // Y-axis max percentage
+
+  // Calculate coordinates for the line chart
+  const points = surabayaData.map((item, i) => {
+    const x = paddingX + (i / (surabayaData.length - 1)) * graphWidth;
+    const y = paddingY + graphHeight - (item.pct / maxPct) * graphHeight;
+    return { ...item, x, y };
+  });
+
+  // SVG Path definition for the trend line
+  const pathD = points.reduce((acc, p, i) => {
+    return i === 0 ? `M ${p.x},${p.y}` : `${acc} L ${p.x},${p.y}`;
+  }, '');
+
+  // Closed SVG Path definition for the area fill under the trend line
+  const areaD = animated && points.length > 0 
+    ? `${pathD} L ${points[points.length - 1].x},${paddingY + graphHeight} L ${points[0].x},${paddingY + graphHeight} Z`
+    : '';
+
   return (
     <div style={{
-      marginTop: '72px',
+      marginTop: '80px',
       borderTop: '1px solid rgba(126,173,207,0.1)',
-      paddingTop: '64px'
+      paddingTop: '80px',
+      width: '100%'
     }}>
       <div className="section-label">RISET LOKAL</div>
-      <h3 style={{
-        fontFamily: 'var(--font-heading)', fontSize: 'clamp(22px,3vw,36px)',
-        fontWeight: 900, textTransform: 'uppercase',
-        color: '#fff', letterSpacing: '-0.5px', lineHeight: 1.0,
-        marginBottom: '8px'
+      <h2 style={{
+        fontFamily: 'var(--font-heading)',
+        fontSize: 'clamp(60px, 8vw, 100px)',
+        fontWeight: 900,
+        textTransform: 'uppercase',
+        color: '#fff',
+        letterSpacing: '-2px',
+        lineHeight: 0.9,
+        marginBottom: '16px'
       }}>
         DATA KONSUMSI KOMIK<br />
-        <span style={{ color: 'var(--accent-color)' }}>DI SURABAYA</span>
-      </h3>
-      <p style={{ color: 'var(--secondary-text)', fontSize: '14px', marginBottom: '40px', fontFamily: 'var(--font-mono)', letterSpacing: '0.5px' }}>
+        <span className="accent-text">DI SURABAYA</span>
+      </h2>
+      <p style={{ 
+        color: 'var(--secondary-text)', 
+        fontSize: '14px', 
+        marginBottom: '48px', 
+        fontFamily: 'var(--font-mono)', 
+        letterSpacing: '0.5px' 
+      }}>
         // Preferensi genre & asal komik pembaca aktif, estimasi survei lokal 2024
       </p>
 
-      {/* Bar Chart */}
-      <div style={{ display: 'flex', flexDirection: 'column', gap: '18px', maxWidth: '720px' }}>
-        {surabayaData.map((item, i) => (
-          <div key={i} style={{ display: 'flex', flexDirection: 'column', gap: '6px' }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-              <span style={{
-                fontFamily: 'var(--font-heading)', fontSize: '13px',
-                fontWeight: 700, textTransform: 'uppercase',
-                letterSpacing: '1px', color: '#c8d8e4'
-              }}>
-                {item.label}
-              </span>
-              <span style={{
-                fontFamily: 'var(--font-mono)', fontSize: '18px',
-                fontWeight: 900, color: item.color
-              }}>
-                {item.pct}%
-              </span>
-            </div>
-            <div style={{
-              height: '10px',
-              background: 'rgba(126,173,207,0.08)',
-              position: 'relative',
-              overflow: 'hidden',
-              border: '1px solid rgba(126,173,207,0.1)'
+      {/* Tooltip animation stylesheet */}
+      <style>{`
+        @keyframes fadeInTooltip {
+          from { opacity: 0; transform: translate(-50%, -90%); }
+          to   { opacity: 1; transform: translate(-50%, -100%); }
+        }
+      `}</style>
+
+      {/* Charts Grid */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(450px, 1fr))',
+        gap: '40px',
+        width: '100%'
+      }}>
+        {/* Left Card: Bar Chart */}
+        <div style={{
+          background: 'var(--card-bg)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid var(--card-border)',
+          borderTop: '2px solid var(--accent-color)',
+          padding: '40px 32px',
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          justifyContent: 'space-between'
+        }}>
+          <div>
+            <h4 style={{ 
+              fontFamily: 'var(--font-heading)', 
+              fontSize: '18px', 
+              fontWeight: 700, 
+              color: '#fff', 
+              textTransform: 'uppercase', 
+              letterSpacing: '1px', 
+              marginBottom: '12px' 
             }}>
-              <div style={{
-                position: 'absolute', left: 0, top: 0, bottom: 0,
-                width: animated ? `${item.pct}%` : '0%',
-                background: `linear-gradient(90deg, ${item.color}, ${item.color}88)`,
-                transition: `width ${0.7 + i * 0.12}s cubic-bezier(0.16,1,0.3,1)`,
-                boxShadow: `0 0 12px ${item.color}44`
-              }} />
-            </div>
+              Diagram Batang Preferensi
+            </h4>
+            <p style={{ color: 'var(--secondary-text)', fontSize: '13px', marginBottom: '36px', lineHeight: '1.6' }}>
+              Menampilkan distribusi persentase pembaca aktif di Surabaya berdasarkan segmentasi asal/genre komik.
+            </p>
           </div>
-        ))}
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '20px', width: '100%' }}>
+            {surabayaData.map((item, i) => {
+              const isHovered = hoveredBar === i;
+              const isAnyHovered = hoveredBar !== null;
+              return (
+                <div 
+                  key={i} 
+                  style={{ 
+                    display: 'flex', 
+                    flexDirection: 'column', 
+                    gap: '8px',
+                    opacity: isAnyHovered && !isHovered ? 0.45 : 1,
+                    transition: 'all 0.3s cubic-bezier(0.16,1,0.3,1)',
+                    cursor: 'pointer',
+                    padding: '8px 12px',
+                    background: isHovered ? 'rgba(126,173,207,0.04)' : 'transparent',
+                    borderLeft: isHovered ? `2px solid ${item.color}` : '2px solid transparent',
+                    transform: isHovered ? 'translateX(6px)' : 'translateX(0)'
+                  }}
+                  onMouseEnter={() => setHoveredBar(i)}
+                  onMouseLeave={() => setHoveredBar(null)}
+                >
+                  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
+                    <span style={{
+                      fontFamily: 'var(--font-heading)', 
+                      fontSize: '13px',
+                      fontWeight: 700, 
+                      textTransform: 'uppercase',
+                      letterSpacing: '1px', 
+                      color: isHovered ? '#fff' : '#c8d8e4',
+                      transition: 'color 0.2s ease'
+                    }}>
+                      {item.label}
+                    </span>
+                    <span style={{
+                      fontFamily: 'var(--font-mono)', 
+                      fontSize: '18px',
+                      fontWeight: 900, 
+                      color: item.color
+                    }}>
+                      {item.pct}%
+                    </span>
+                  </div>
+                  <div style={{
+                    height: '12px',
+                    background: 'rgba(126,173,207,0.08)',
+                    position: 'relative',
+                    overflow: 'hidden',
+                    border: '1px solid rgba(126,173,207,0.1)'
+                  }}>
+                    <div style={{
+                      position: 'absolute', left: 0, top: 0, bottom: 0,
+                      width: animated ? `${item.pct}%` : '0%',
+                      background: `linear-gradient(90deg, ${item.color}, ${item.color}88)`,
+                      transition: `width ${0.8 + i * 0.12}s cubic-bezier(0.16,1,0.3,1)`,
+                      boxShadow: isHovered ? `0 0 16px ${item.color}bb` : `0 0 12px ${item.color}44`
+                    }} />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Right Card: Line Graph */}
+        <div style={{
+          background: 'var(--card-bg)',
+          backdropFilter: 'blur(12px)',
+          border: '1px solid var(--card-border)',
+          borderTop: '2px solid var(--accent-color)',
+          padding: '40px 32px',
+          display: 'flex',
+          flexDirection: 'column',
+          width: '100%',
+          position: 'relative',
+          justifyContent: 'space-between'
+        }}>
+          <div>
+            <h4 style={{ 
+              fontFamily: 'var(--font-heading)', 
+              fontSize: '18px', 
+              fontWeight: 700, 
+              color: '#fff', 
+              textTransform: 'uppercase', 
+              letterSpacing: '1px', 
+              marginBottom: '12px' 
+            }}>
+              Kurva Distribusi Konsumsi
+            </h4>
+            <p style={{ color: 'var(--secondary-text)', fontSize: '13px', marginBottom: '36px', lineHeight: '1.6' }}>
+              Memetakan laju kelandaian konsumsi antar medium. Arahkan kursor pada simpul grafik untuk melihat detail riset.
+            </p>
+          </div>
+
+          {/* SVG Container */}
+          <div style={{ position: 'relative', width: '100%', height: `${svgHeight}px` }}>
+            <svg 
+              viewBox={`0 0 ${svgWidth} ${svgHeight}`} 
+              style={{ width: '100%', height: '100%', overflow: 'visible' }}
+            >
+              {/* Definitions for Gradients */}
+              <defs>
+                <linearGradient id="area-gradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#7EADCF" stopOpacity="0.22" />
+                  <stop offset="100%" stopColor="#7EADCF" stopOpacity="0" />
+                </linearGradient>
+                <linearGradient id="line-glow" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#7EADCF" />
+                  <stop offset="50%" stopColor="#5A8EBF" />
+                  <stop offset="100%" stopColor="#3A6E9A" />
+                </linearGradient>
+              </defs>
+
+              {/* Horizontal Gridlines */}
+              {[10, 20, 30, 40, 50].map((level) => {
+                const yVal = paddingY + graphHeight - (level / maxPct) * graphHeight;
+                return (
+                  <g key={level}>
+                    <line 
+                      x1={paddingX} 
+                      y1={yVal} 
+                      x2={svgWidth - paddingX} 
+                      y2={yVal} 
+                      stroke="rgba(126, 173, 207, 0.07)" 
+                      strokeDasharray="4 4" 
+                    />
+                    <text 
+                      x={paddingX - 14} 
+                      y={yVal + 3} 
+                      textAnchor="end" 
+                      fill="rgba(138, 155, 173, 0.5)" 
+                      fontSize="10px" 
+                      fontFamily="var(--font-mono)"
+                    >
+                      {level}%
+                    </text>
+                  </g>
+                );
+              })}
+
+              {/* Vertical Gridlines */}
+              {points.map((pt, idx) => (
+                <line 
+                  key={idx}
+                  x1={pt.x} 
+                  y1={paddingY} 
+                  x2={pt.x} 
+                  y2={paddingY + graphHeight} 
+                  stroke="rgba(126, 173, 207, 0.04)" 
+                  strokeDasharray="2 2" 
+                />
+              ))}
+
+              {/* Gradient Area under the line */}
+              {animated && areaD && (
+                <path 
+                  d={areaD} 
+                  fill="url(#area-gradient)" 
+                  style={{ transition: 'all 1s ease-in-out' }}
+                />
+              )}
+
+              {/* Glowing Axis Projections (dynamic based on hover) */}
+              {hoveredLinePoint !== null && (
+                <g>
+                  {/* Horiz line to Y-axis */}
+                  <line 
+                    x1={paddingX} 
+                    y1={points[hoveredLinePoint].y} 
+                    x2={points[hoveredLinePoint].x} 
+                    y2={points[hoveredLinePoint].y} 
+                    stroke={points[hoveredLinePoint].color} 
+                    strokeDasharray="3 3" 
+                    strokeOpacity="0.6"
+                    strokeWidth="1.5"
+                  />
+                  {/* Vert line to X-axis */}
+                  <line 
+                    x1={points[hoveredLinePoint].x} 
+                    y1={points[hoveredLinePoint].y} 
+                    x2={points[hoveredLinePoint].x} 
+                    y2={paddingY + graphHeight} 
+                    stroke={points[hoveredLinePoint].color} 
+                    strokeDasharray="3 3" 
+                    strokeOpacity="0.6"
+                    strokeWidth="1.5"
+                  />
+                </g>
+              )}
+
+              {/* The primary trend line */}
+              {animated && pathD && (
+                <g>
+                  {/* Glowing background wide line */}
+                  <path 
+                    d={pathD} 
+                    stroke="url(#line-glow)" 
+                    strokeWidth="8" 
+                    strokeOpacity="0.12" 
+                    fill="none" 
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                  {/* High contrast sharp foreground line */}
+                  <path 
+                    d={pathD} 
+                    stroke="url(#line-glow)" 
+                    strokeWidth="3.5" 
+                    fill="none" 
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    style={{
+                      filter: 'drop-shadow(0 0 4px rgba(126, 173, 207, 0.4))'
+                    }}
+                  />
+                </g>
+              )}
+
+              {/* Data points & hover overlays */}
+              {points.map((pt, i) => {
+                const isHovered = hoveredLinePoint === i;
+                return (
+                  <g key={i}>
+                    {/* Pulsing halo for hovered dot */}
+                    {isHovered && (
+                      <circle 
+                        cx={pt.x} 
+                        cy={pt.y} 
+                        r="14" 
+                        fill="none" 
+                        stroke={pt.color} 
+                        strokeWidth="1.5" 
+                        opacity="0.6"
+                      >
+                        <animate attributeName="r" values="8;16;8" dur="1.8s" repeatCount="indefinite" />
+                        <animate attributeName="opacity" values="0.7;0;0.7" dur="1.8s" repeatCount="indefinite" />
+                      </circle>
+                    )}
+
+                    {/* Dot Border/Glow */}
+                    <circle 
+                      cx={pt.x} 
+                      cy={pt.y} 
+                      r={isHovered ? 7 : 5} 
+                      fill={pt.color} 
+                      stroke="#080C10" 
+                      strokeWidth={isHovered ? 2.5 : 1.5}
+                      style={{ 
+                        transition: 'all 0.2s cubic-bezier(0.16,1,0.3,1)',
+                        cursor: 'pointer',
+                        filter: isHovered ? `drop-shadow(0 0 8px ${pt.color})` : 'none'
+                      }}
+                    />
+
+                    {/* Dot Core */}
+                    <circle 
+                      cx={pt.x} 
+                      cy={pt.y} 
+                      r="1.8" 
+                      fill="#fff" 
+                      style={{ pointerEvents: 'none' }}
+                    />
+
+                    {/* Interactive Hover Area (larger circle) */}
+                    <circle 
+                      cx={pt.x} 
+                      cy={pt.y} 
+                      r="22" 
+                      fill="transparent" 
+                      style={{ cursor: 'pointer' }}
+                      onMouseEnter={() => setHoveredLinePoint(i)}
+                      onMouseLeave={() => setHoveredLinePoint(null)}
+                    />
+                  </g>
+                );
+              })}
+
+              {/* X-Axis Labels */}
+              {points.map((pt, i) => (
+                <text 
+                  key={i}
+                  x={pt.x} 
+                  y={paddingY + graphHeight + 22} 
+                  textAnchor="middle" 
+                  fill={hoveredLinePoint === i ? '#fff' : 'rgba(138, 155, 173, 0.7)'} 
+                  fontSize="11px" 
+                  fontFamily="var(--font-heading)" 
+                  fontWeight={hoveredLinePoint === i ? '700' : '400'}
+                  style={{ transition: 'fill 0.2s ease, font-weight 0.2s ease' }}
+                >
+                  {pt.label.split(' ')[0]}
+                </text>
+              ))}
+
+              {/* Baseline axis line */}
+              <line 
+                x1={paddingX} 
+                y1={paddingY + graphHeight} 
+                x2={svgWidth - paddingX} 
+                y2={paddingY + graphHeight} 
+                stroke="rgba(126, 173, 207, 0.2)" 
+                strokeWidth="1" 
+              />
+            </svg>
+
+            {/* Dynamic floating HTML tooltip */}
+            {hoveredLinePoint !== null && (
+              <div style={{
+                position: 'absolute',
+                left: `${(points[hoveredLinePoint].x / svgWidth) * 100}%`,
+                top: `${(points[hoveredLinePoint].y / svgHeight) * 100 - 15}%`,
+                transform: 'translate(-50%, -100%)',
+                background: 'rgba(8,12,16,0.96)',
+                backdropFilter: 'blur(12px)',
+                border: `1px solid ${points[hoveredLinePoint].color}`,
+                borderTop: `3px solid ${points[hoveredLinePoint].color}`,
+                padding: '12px 16px',
+                boxShadow: `0 12px 36px rgba(0,0,0,0.9), 0 0 20px ${points[hoveredLinePoint].color}22`,
+                pointerEvents: 'none',
+                zIndex: 100,
+                minWidth: '160px',
+                borderRadius: '0',
+                animation: 'fadeInTooltip 0.18s cubic-bezier(0.16, 1, 0.3, 1) forwards'
+              }}>
+                <div style={{ 
+                  fontFamily: 'var(--font-mono)', 
+                  fontSize: '10px', 
+                  color: points[hoveredLinePoint].color, 
+                  letterSpacing: '1px', 
+                  textTransform: 'uppercase', 
+                  marginBottom: '6px',
+                  fontWeight: 'bold'
+                }}>
+                  {points[hoveredLinePoint].label}
+                </div>
+                <div style={{ display: 'flex', alignItems: 'baseline', gap: '6px' }}>
+                  <span style={{ 
+                    fontFamily: 'var(--font-heading)', 
+                    fontSize: '26px', 
+                    fontWeight: 900, 
+                    color: '#fff',
+                    lineHeight: '1'
+                  }}>
+                    {points[hoveredLinePoint].pct}%
+                  </span>
+                  <span style={{ fontSize: '11px', color: 'var(--secondary-text)' }}>
+                    responden
+                  </span>
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
 
       {/* Legend note */}
