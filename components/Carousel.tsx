@@ -30,12 +30,23 @@ export default function Carousel({ images }: CarouselProps) {
             opacity: index === currentIndex ? 1 : 0,
             transition: 'opacity 0.8s ease-in-out',
             zIndex: index === currentIndex ? 1 : 0,
+            background: 'rgba(6,10,16,0.92)',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
           }}
         >
           <img
             src={src}
             alt={`Slide ${index + 1}`}
-            style={{ width: '100%', height: '100%', objectFit: 'cover', filter: 'brightness(0.5) saturate(0.45)' }}
+            style={{
+              width: '100%',
+              height: '100%',
+              objectFit: 'contain',
+              objectPosition: 'center',
+              filter: 'brightness(0.65) saturate(0.45)',
+              background: 'transparent',
+            }}
             className="carousel-img"
           />
         </div>
