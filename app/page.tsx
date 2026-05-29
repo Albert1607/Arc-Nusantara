@@ -490,7 +490,7 @@ export default function Home() {
           <div className="timeline-content-grid">
             <div className="timeline-img-col" style={{ padding: 0 }}>
               <Carousel images={[
-                '/assets/sri_asih_cover.png',
+                '/assets/si_buta.png',
                 '/assets/sri_asih.jpg',
                 '/assets/gundala.jpg'
               ]} />
